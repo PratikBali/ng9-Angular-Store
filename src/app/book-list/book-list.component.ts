@@ -5,6 +5,7 @@ import { BookService } from './book.service';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 
 export class BooksModel {
+  id;
   title;
   description;
   publishdate;
@@ -43,7 +44,6 @@ export class BookListComponent implements OnInit {
   ngOnInit(): void {
     let bookData
     this.bookService.getBooks().subscribe(books => {
-      console.log(books);
       bookData = books;
       this.bookList = bookData;
 
@@ -65,17 +65,40 @@ export class BookListComponent implements OnInit {
   }
 
   addBook() {
-    console.log(this.bookModel);
+    this.clear()
   }
 
-  edit(id) {
-    let d = this.bookList.find(a => { return a.id });
-    console.log(d);
+  getBookForEdit(id) {
+    let book = this.bookList.find(book => book.ID === id);
 
+    this.bookModel.id = book.ID;
+    this.bookModel.description = book.Title;
+    this.bookModel.excerpt = book.Excerpt;
+    this.bookModel.publishdate = book.PublishDate;
+    this.bookModel.title = book.Title;
+    this.bookModel.pagecount = book.PageCount;
+
+  }
+
+  edit() {
+    let id = this.bookModel.id;
+    this.bookService.edit(id, this.bookModel)
+  }
+
+  clear() {
+    this.bookModel.description = '';
+    this.bookModel.excerpt = '';
+    this.bookModel.publishdate = '';
+    this.bookModel.title = '';
+    this.bookModel.pagecount = '';
   }
 
   delete(id) {
-
+    const result = confirm('Are you sure to delete this book?')
+    if (result) {
+      // api
+      this.bookService.delete(id)
+    }
   }
 
 }

@@ -17,7 +17,8 @@
                 <th scope="row"> {{book.ID}} </th>
                 <td> {{book.Title}} </td>
                 <td> {{book.PublishDate | date:'shortDate' }} </td>
-                <td> <button (click)="edit(book.ID)" class="btn btn-primary">Edit</button> &nbsp;
+                <td> <button (click)="getBookForEdit(book.ID)" class="btn btn-primary" data-toggle="modal"
+                        data-target="#addBookModal">Edit</button> &nbsp;
                     <button (click)="delete(book.ID)" class="btn btn-danger">Delete</button>
                 </td>
             </tr>
@@ -89,7 +90,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" (click)="addBook()" data-dismiss="modal"
+                <button type="button" class="btn btn-success" data-dismiss="modal" (click)="edit()"
                     [disabled]="bookForm.invalid">Submit</button>
             </div>
         </div>
